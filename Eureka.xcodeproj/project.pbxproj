@@ -71,10 +71,12 @@
 		28EEC02F1C7E49BF00300699 /* SelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859CE101C7E01EE0002982F /* SelectorViewController.swift */; };
 		28EEC0321C7E64A400300699 /* DatePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859CDFC1C7DF9430002982F /* DatePickerRow.swift */; };
 		28EEC0331C7E64AB00300699 /* PopoverSelectorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2859CE1D1C7E08300002982F /* PopoverSelectorRow.swift */; };
+		399AA8F15ABA97C94243D0BA /* Pods_Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECF1CC9038E0E149126C0F32 /* Pods_Eureka.framework */; };
 		49ADC7F91C8A83240073952B /* StepperRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ADC7F81C8A83240073952B /* StepperRow.swift */; };
 		51729DF61B9A4F5E004A00EB /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51729DEB1B9A4F5E004A00EB /* Eureka.framework */; };
 		51729E671B9A5FA5004A00EB /* Eureka.h in Headers */ = {isa = PBXBuildFile; fileRef = 51729E661B9A5FA5004A00EB /* Eureka.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8690E4BE1CFDE062004CDB1C /* Eureka.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8690E4BD1CFDE062004CDB1C /* Eureka.bundle */; };
+		F55C708F5ECBE9E94719C5F6 /* Pods_Eureka_EurekaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D976999E44B064B94904DD53 /* Pods_Eureka_EurekaTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +154,7 @@
 		28EEBFF71C7E241200300699 /* SelectableRowType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableRowType.swift; sourceTree = "<group>"; };
 		28EEBFFA1C7E25C500300699 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		28EEBFFC1C7E25F100300699 /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		3EC51A3E4E23C43105D488F6 /* Pods-Eureka-EurekaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eureka-EurekaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Eureka-EurekaTests/Pods-Eureka-EurekaTests.release.xcconfig"; sourceTree = "<group>"; };
 		49ADC7F81C8A83240073952B /* StepperRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepperRow.swift; sourceTree = "<group>"; };
 		51729DEB1B9A4F5E004A00EB /* Eureka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Eureka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51729DF01B9A4F5E004A00EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Source/Info.plist; sourceTree = "<group>"; };
@@ -159,6 +162,11 @@
 		51729DFC1B9A4F5E004A00EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Tests/Info.plist; sourceTree = "<group>"; };
 		51729E661B9A5FA5004A00EB /* Eureka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Eureka.h; path = Source/Eureka.h; sourceTree = SOURCE_ROOT; };
 		8690E4BD1CFDE062004CDB1C /* Eureka.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Eureka.bundle; sourceTree = "<group>"; };
+		89C74131635B398B794915E3 /* Pods-Eureka.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eureka.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Eureka/Pods-Eureka.debug.xcconfig"; sourceTree = "<group>"; };
+		BD33CCDF47BF24023DA798CF /* Pods-Eureka-EurekaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eureka-EurekaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Eureka-EurekaTests/Pods-Eureka-EurekaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D976999E44B064B94904DD53 /* Pods_Eureka_EurekaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eureka_EurekaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECF1CC9038E0E149126C0F32 /* Pods_Eureka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eureka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE39B202924EE8B9AAC19A27 /* Pods-Eureka.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eureka.release.xcconfig"; path = "Pods/Target Support Files/Pods-Eureka/Pods-Eureka.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				399AA8F15ABA97C94243D0BA /* Pods_Eureka.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,12 +183,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				51729DF61B9A4F5E004A00EB /* Eureka.framework in Frameworks */,
+				F55C708F5ECBE9E94719C5F6 /* Pods_Eureka_EurekaTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		197A857A95BE80116B5E9C6F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				89C74131635B398B794915E3 /* Pods-Eureka.debug.xcconfig */,
+				EE39B202924EE8B9AAC19A27 /* Pods-Eureka.release.xcconfig */,
+				BD33CCDF47BF24023DA798CF /* Pods-Eureka-EurekaTests.debug.xcconfig */,
+				3EC51A3E4E23C43105D488F6 /* Pods-Eureka-EurekaTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		2859CD901C7CF1FD0002982F /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,12 +294,23 @@
 			name = SelectableRows;
 			sourceTree = "<group>";
 		};
+		48B48885B5569451D367B40F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ECF1CC9038E0E149126C0F32 /* Pods_Eureka.framework */,
+				D976999E44B064B94904DD53 /* Pods_Eureka_EurekaTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		51729DE11B9A4F5E004A00EB = {
 			isa = PBXGroup;
 			children = (
 				51729DED1B9A4F5E004A00EB /* Source */,
 				51729DF91B9A4F5E004A00EB /* Tests */,
 				51729DEC1B9A4F5E004A00EB /* Products */,
+				197A857A95BE80116B5E9C6F /* Pods */,
+				48B48885B5569451D367B40F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -352,10 +384,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51729DFF1B9A4F5E004A00EB /* Build configuration list for PBXNativeTarget "Eureka" */;
 			buildPhases = (
+				AA28B929F7DEA772097273FB /* [CP] Check Pods Manifest.lock */,
 				51729DE61B9A4F5E004A00EB /* Sources */,
 				51729DE71B9A4F5E004A00EB /* Frameworks */,
 				51729DE81B9A4F5E004A00EB /* Headers */,
 				51729DE91B9A4F5E004A00EB /* Resources */,
+				34C824C1509CDF3CAC16EF47 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -370,9 +404,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 51729E021B9A4F5E004A00EB /* Build configuration list for PBXNativeTarget "EurekaTests" */;
 			buildPhases = (
+				F6EE5A9934DE81CAEB1DC0E1 /* [CP] Check Pods Manifest.lock */,
 				51729DF11B9A4F5E004A00EB /* Sources */,
 				51729DF21B9A4F5E004A00EB /* Frameworks */,
 				51729DF31B9A4F5E004A00EB /* Resources */,
+				7D6A7C69260B492822A4FADC /* [CP] Embed Pods Frameworks */,
+				38B6921C83AA4D11B473E60A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -440,6 +477,84 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		34C824C1509CDF3CAC16EF47 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Eureka/Pods-Eureka-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		38B6921C83AA4D11B473E60A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Eureka-EurekaTests/Pods-Eureka-EurekaTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D6A7C69260B492822A4FADC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Eureka-EurekaTests/Pods-Eureka-EurekaTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA28B929F7DEA772097273FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F6EE5A9934DE81CAEB1DC0E1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		51729DE61B9A4F5E004A00EB /* Sources */ = {
@@ -622,6 +737,7 @@
 		};
 		51729E001B9A4F5E004A00EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89C74131635B398B794915E3 /* Pods-Eureka.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -643,6 +759,7 @@
 		};
 		51729E011B9A4F5E004A00EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE39B202924EE8B9AAC19A27 /* Pods-Eureka.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -664,6 +781,7 @@
 		};
 		51729E031B9A4F5E004A00EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD33CCDF47BF24023DA798CF /* Pods-Eureka-EurekaTests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -675,6 +793,7 @@
 		};
 		51729E041B9A4F5E004A00EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EC51A3E4E23C43105D488F6 /* Pods-Eureka-EurekaTests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

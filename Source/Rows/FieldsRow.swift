@@ -7,17 +7,18 @@
 //
 
 import Foundation
+import PhoneNumberKit
 
 public class TextCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .default
@@ -28,15 +29,15 @@ public class TextCell : _FieldCell<String>, CellType {
 
 
 public class IntCell : _FieldCell<Int>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .default
@@ -45,16 +46,16 @@ public class IntCell : _FieldCell<Int>, CellType {
     }
 }
 
-public class PhoneCell : _FieldCell<String>, CellType {
-    
+public class PhoneCell : _PhoneNumberFieldCell<String>, CellType {
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.keyboardType = .phonePad
@@ -62,15 +63,15 @@ public class PhoneCell : _FieldCell<String>, CellType {
 }
 
 public class NameCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -80,15 +81,15 @@ public class NameCell : _FieldCell<String>, CellType {
 }
 
 public class EmailCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -98,15 +99,15 @@ public class EmailCell : _FieldCell<String>, CellType {
 }
 
 public class PasswordCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -117,15 +118,15 @@ public class PasswordCell : _FieldCell<String>, CellType {
 }
 
 public class DecimalCell : _FieldCell<Double>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -134,15 +135,15 @@ public class DecimalCell : _FieldCell<Double>, CellType {
 }
 
 public class URLCell : _FieldCell<URL>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -152,15 +153,15 @@ public class URLCell : _FieldCell<URL>, CellType {
 }
 
 public class TwitterCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -170,15 +171,15 @@ public class TwitterCell : _FieldCell<String>, CellType {
 }
 
 public class AccountCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func setup() {
         super.setup()
         textField.autocorrectionType = .no
@@ -188,15 +189,15 @@ public class AccountCell : _FieldCell<String>, CellType {
 }
 
 public class ZipCodeCell : _FieldCell<String>, CellType {
-    
+
     required public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func update() {
         super.update()
         textField.autocorrectionType = .no
@@ -222,7 +223,7 @@ public class _IntRow: FieldRow<IntCell> {
     }
 }
 
-public class _PhoneRow: FieldRow<PhoneCell> {
+public class _PhoneRow: PhoneNumberFieldRow<PhoneCell> {
     public required init(tag: String?) {
         super.init(tag: tag)
     }

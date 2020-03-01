@@ -23,6 +23,7 @@
 // THE SOFTWARE.
 
 import Foundation
+import PhoneNumberKit
 
 public protocol InputTypeInitiable {
     init?(string stringValue: String)
@@ -35,7 +36,7 @@ public protocol FieldRowConformance : FormatterConformance {
 }
 
 extension Int: InputTypeInitiable {
-    
+
     public init?(string stringValue: String){
         self.init(stringValue, radix: 10)
     }
@@ -59,15 +60,15 @@ extension Double: InputTypeInitiable {
 
 
 open class FormatteableRow<Cell: CellType>: Row<Cell>, FormatterConformance where Cell: BaseCell, Cell: TextInputCell {
-    
-    
+
+
     /// A formatter to be used to format the user's input
     public var formatter: Formatter?
-    
+
     /// If the formatter should be used while the user is editing the text.
     public var useFormatterDuringInput = false
     public var useFormatterOnDidBeginEditing: Bool?
-    
+
     public required init(tag: String?) {
         super.init(tag: tag)
         displayValueFor = { [unowned self] value in
@@ -84,23 +85,61 @@ open class FormatteableRow<Cell: CellType>: Row<Cell>, FormatterConformance wher
 
 
 public class FieldRow<Cell: CellType>: FormatteableRow<Cell>, FieldRowConformance, KeyboardReturnHandler where Cell: BaseCell, Cell: TextFieldCell {
-    
+
     /// Configuration for the keyboardReturnType of this row
     public var keyboardReturnType : KeyboardReturnTypeConfiguration?
-    
+
     /// The percentage of the cell that should be occupied by the textField
     public var textFieldPercentage : CGFloat?
-    
+
     /// The placeholder for the textField
     public var placeholder : String?
-    
+
     /// The textColor for the textField's placeholder
     public var placeholderColor : UIColor?
-    
+
     public required init(tag: String?) {
         super.init(tag: tag)
     }
 }
+
+
+public class PhoneNumberFieldRow<T: Any, Cell: CellType where Cell: BaseCell, Cell: TypedCellType, Cell: PhoneNumberTextFieldCell, Cell.Value == T>: Row<T, Cell>, FieldRowConformance, KeyboardReturnHandler {
+
+     /// Configuration for the keyboardReturnType of this row
+     public var keyboardReturnType : KeyboardReturnTypeConfiguration?
+
+     /// The percentage of the cell that should be occupied by the textField
+     public var textFieldPercentage : CGFloat?
+
+     /// The placeholder for the textField
+     public var placeholder : String?
+
+     /// The textColor for the textField's placeholder
+     public var placeholderColor : UIColor?
+
+     /// A formatter to be used to format the user's input
+     public var formatter: Formatter?
+
+     /// If the formatter should be used while the user is editing the text.
+     public var useFormatterDuringInput = false
+     public var useFormatterOnDidBeginEditing: Bool?
+
+     public required init(tag: String?) {
+         super.init(tag: tag)
+         self.displayValueFor = { [unowned self] value in
+             guard let v = value else { return nil }
+             if let formatter = self.formatter {
+                 if self.cell.textField.isFirstResponder(){
+                     return self.useFormatterDuringInput ? formatter.editingStringForObjectValue(v as! AnyObject) : String(v)
+                 }
+                 return formatter.stringForObjectValue(v as! AnyObject)
+             }
+             return String(v)
+         }
+     }
+ }
+
 
 /**
  *  Protocol for cells that contain a UITextField
@@ -110,34 +149,38 @@ public protocol TextInputCell {
 }
 
 public protocol TextFieldCell: TextInputCell {
-    
+
     var textField: UITextField { get }
 }
 
+public protocol PhoneNumberTextFieldCell {
+     var textField : PhoneNumberTextField { get }
+}
+
 extension TextFieldCell {
-    
+
     public var textInput: UITextInput {
         return textField
     }
 }
 
 public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T: Equatable, T: InputTypeInitiable {
-    
+
     lazy public var textField : UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     public var titleLabel : UILabel? {
         textLabel?.translatesAutoresizingMaskIntoConstraints = false
         textLabel?.setContentHuggingPriority(500, for: .horizontal)
         textLabel?.setContentCompressionResistancePriority(1000, for: .horizontal)
         return textLabel
     }
-    
+
     public var dynamicConstraints = [NSLayoutConstraint]()
-    
+
     public required init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil){ [weak self] notification in
@@ -147,16 +190,16 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil){ [weak self] notification in
             self?.titleLabel?.addObserver(self!, forKeyPath: "text", options: NSKeyValueObservingOptions.old.union(.new), context: nil)
         }
-        
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil, queue: nil){ [weak self] notification in
             self?.setNeedsUpdateConstraints()
         }
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     deinit {
         textField.delegate = nil
         textField.removeTarget(self, action: nil, for: .allEvents)
@@ -166,19 +209,19 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
-    
+
     public override func setup() {
         super.setup()
         selectionStyle = .none
         contentView.addSubview(titleLabel!)
         contentView.addSubview(textField)
-        
+
         titleLabel?.addObserver(self, forKeyPath: "text", options: NSKeyValueObservingOptions.old.union(.new), context: nil)
         imageView?.addObserver(self, forKeyPath: "image", options: NSKeyValueObservingOptions.old.union(.new), context: nil)
         textField.addTarget(self, action: #selector(_FieldCell.textFieldDidChange(_:)), for: .editingChanged)
-        
+
     }
-    
+
     public override func update() {
         super.update()
         detailTextLabel?.text = nil
@@ -204,36 +247,36 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
             }
         }
     }
-    
+
     public override func cellCanBecomeFirstResponder() -> Bool {
         return !row.isDisabled && textField.canBecomeFirstResponder
     }
-    
+
     public override func cellBecomeFirstResponder(_ direction: Direction) -> Bool {
         return textField.becomeFirstResponder()
     }
-    
+
     public override func cellResignFirstResponder() -> Bool {
         return textField.resignFirstResponder()
     }
 
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         let obj = object as AnyObject?
-        
+
         if let keyPathValue = keyPath, let changeType = change?[NSKeyValueChangeKey.kindKey], ((obj === titleLabel && keyPathValue == "text") || (obj === imageView && keyPathValue == "image")) && (changeType as? NSNumber)?.uintValue == NSKeyValueChange.setting.rawValue {
             setNeedsUpdateConstraints()
             updateConstraintsIfNeeded()
         }
     }
-    
+
     // Mark: Helpers
-    
+
     public func customConstraints() {
         contentView.removeConstraints(dynamicConstraints)
         dynamicConstraints = []
         var views : [String: AnyObject] =  ["textField": textField]
         dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[textField]-11-|", options: .alignAllLastBaseline, metrics: nil, views: ["textField": textField])
-        
+
         if let label = titleLabel, let text = label.text, !text.isEmpty {
             dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[titleLabel]-11-|", options: .alignAllLastBaseline, metrics: nil, views: ["titleLabel": label])
             dynamicConstraints.append(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY, multiplier: 1, constant: 0))
@@ -261,14 +304,14 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
         }
         contentView.addConstraints(dynamicConstraints)
     }
-    
+
     public override func updateConstraints(){
         customConstraints()
         super.updateConstraints()
     }
-    
+
     public func textFieldDidChange(_ textField : UITextField){
-        
+
         guard let textValue = textField.text else {
             row.value = nil
             return
@@ -298,9 +341,9 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
             }
         }
     }
-    
+
     //Mark: Helpers
-    
+
     private func displayValue(useFormatter: Bool) -> String? {
         guard let v = row.value else { return nil }
         if let formatter = (row as? FormatterConformance)?.formatter, useFormatter {
@@ -308,9 +351,9 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
         }
         return String(describing: v)
     }
-    
+
     //MARK: TextFieldDelegate
-    
+
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         formViewController()?.beginEditing(self)
         formViewController()?.textInputDidBeginEditing(textField, cell: self)
@@ -320,33 +363,249 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
             textField.text = displayValue(useFormatter: false)
         }
     }
-    
+
     public func textFieldDidEndEditing(_ textField: UITextField) {
         formViewController()?.endEditing(self)
         formViewController()?.textInputDidEndEditing(textField, cell: self)
         textFieldDidChange(textField)
         textField.text = displayValue(useFormatter: (row as? FormatterConformance)?.formatter != nil)
     }
-    
+
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return formViewController()?.textInputShouldReturn(textField, cell: self) ?? true
     }
-    
+
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return formViewController()?.textInput(textField, shouldChangeCharactersInRange:range, replacementString:string, cell: self) ?? true
     }
-    
+
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return formViewController()?.textInputShouldBeginEditing(textField, cell: self) ?? true
     }
-    
+
     public func textFieldShouldClear(_ textField: UITextField) -> Bool {
         return formViewController()?.textInputShouldClear(textField, cell: self) ?? true
     }
-    
+
     public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return formViewController()?.textInputShouldEndEditing(textField, cell: self) ?? true
     }
-    
-    
+
+
+    public class _PhoneNumberFieldCell<T where T: Equatable, T: InputTypeInitiable> : Cell<T>, UITextFieldDelegate, PhoneNumberTextFieldCell {
+        lazy public var textField : PhoneNumberTextField = {
+            let textField = PhoneNumberTextField()
+            textField.translatesAutoresizingMaskIntoConstraints = false
+            return textField
+        }()
+
+        public var titleLabel : UILabel? {
+            textLabel?.translatesAutoresizingMaskIntoConstraints = false
+            textLabel?.setContentHuggingPriority(500, forAxis: .Horizontal)
+            textLabel?.setContentCompressionResistancePriority(1000, forAxis: .Horizontal)
+            return textLabel
+        }
+
+        public var dynamicConstraints = [NSLayoutConstraint]()
+
+        public required init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+        }
+
+        deinit {
+            textField.delegate = nil
+            textField.removeTarget(self, action: nil, forControlEvents: .AllEvents)
+            titleLabel?.removeObserver(self, forKeyPath: "text")
+            imageView?.removeObserver(self, forKeyPath: "image")
+        }
+
+        public override func setup() {
+            super.setup()
+            selectionStyle = .None
+            contentView.addSubview(titleLabel!)
+            contentView.addSubview(textField)
+
+            titleLabel?.addObserver(self, forKeyPath: "text", options: NSKeyValueObservingOptions.Old.union(.New), context: nil)
+            imageView?.addObserver(self, forKeyPath: "image", options: NSKeyValueObservingOptions.Old.union(.New), context: nil)
+            textField.addTarget(self, action: #selector(_PhoneNumberFieldCell.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+
+        }
+
+        public override func update() {
+            super.update()
+            detailTextLabel?.text = nil
+            if let title = row.title {
+                textField.textAlignment = title.isEmpty ? .Left : .Right
+                textField.clearButtonMode = title.isEmpty ? .WhileEditing : .Never
+            }
+            else{
+                textField.textAlignment =  .Left
+                textField.clearButtonMode =  .WhileEditing
+            }
+            textField.delegate = self
+            textField.text = row.displayValueFor?(row.value)
+            textField.enabled = !row.isDisabled
+            textField.textColor = row.isDisabled ? .grayColor() : .blackColor()
+            textField.font = .preferredFontForTextStyle(UIFontTextStyleBody)
+            if let placeholder = (row as? FieldRowConformance)?.placeholder {
+                if let color = (row as? FieldRowConformance)?.placeholderColor {
+                    textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName: color])
+                }
+                else{
+                    textField.placeholder = (row as? FieldRowConformance)?.placeholder
+                }
+            }
+        }
+
+        public override func cellCanBecomeFirstResponder() -> Bool {
+            return !row.isDisabled && textField.canBecomeFirstResponder()
+        }
+
+        public override func cellBecomeFirstResponder(direction: Direction) -> Bool {
+            return textField.becomeFirstResponder()
+        }
+
+        public override func cellResignFirstResponder() -> Bool {
+            return textField.resignFirstResponder()
+        }
+
+        public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+            if let obj = object, let keyPathValue = keyPath, let changeType = change?[NSKeyValueChangeKindKey] , ((obj === titleLabel && keyPathValue == "text") || (obj === imageView && keyPathValue == "image")) && changeType.unsignedLongValue == NSKeyValueChange.Setting.rawValue {
+                setNeedsUpdateConstraints()
+                updateConstraintsIfNeeded()
+            }
+        }
+
+        // Mark: Helpers
+
+        public func customConstraints() {
+            contentView.removeConstraints(dynamicConstraints)
+            dynamicConstraints = []
+            var views : [String: AnyObject] =  ["textField": textField]
+            dynamicConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-11-[textField]-11-|", options: .AlignAllBaseline, metrics: nil, views: ["textField": textField])
+
+            if let label = titleLabel, let text = label.text , !text.isEmpty {
+                dynamicConstraints += NSLayoutConstraint.constraintsWithVisualFormat("V:|-11-[titleLabel]-11-|", options: .AlignAllBaseline, metrics: nil, views: ["titleLabel": label])
+                dynamicConstraints.append(NSLayoutConstraint(item: label, attribute: .CenterY, relatedBy: .Equal, toItem: textField, attribute: .CenterY, multiplier: 1, constant: 0))
+            }
+            if let imageView = imageView, let _ = imageView.image {
+                views["imageView"] = imageView
+                if let titleLabel = titleLabel, let text = titleLabel.text , !text.isEmpty {
+                    views["label"] = titleLabel
+                    dynamicConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:[imageView]-[label]-[textField]-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+                    dynamicConstraints.append(NSLayoutConstraint(item: textField, attribute: .Width, relatedBy: (row as? FieldRowConformance)?.textFieldPercentage != nil ? .Equal : .GreaterThanOrEqual, toItem: contentView, attribute: .Width, multiplier: (row as? FieldRowConformance)?.textFieldPercentage ?? 0.3, constant: 0.0))
+                }
+                else{
+                    dynamicConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:[imageView]-[textField]-|", options: [], metrics: nil, views: views)
+                }
+            }
+            else{
+                if let titleLabel = titleLabel, let text = titleLabel.text , !text.isEmpty {
+                    views["label"] = titleLabel
+                    dynamicConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-[label]-[textField]-|", options: [], metrics: nil, views: views)
+                    dynamicConstraints.append(NSLayoutConstraint(item: textField, attribute: .Width, relatedBy: (row as? FieldRowConformance)?.textFieldPercentage != nil ? .Equal : .GreaterThanOrEqual, toItem: contentView, attribute: .Width, multiplier: (row as? FieldRowConformance)?.textFieldPercentage ?? 0.3, constant: 0.0))
+                }
+                else{
+                    dynamicConstraints += NSLayoutConstraint.constraintsWithVisualFormat("H:|-[textField]-|", options: .AlignAllLeft, metrics: nil, views: views)
+                }
+            }
+            contentView.addConstraints(dynamicConstraints)
+        }
+
+        public override func updateConstraints(){
+            customConstraints()
+            super.updateConstraints()
+        }
+
+        public func textFieldDidChange(textField : UITextField){
+            guard let textValue = textField.text else {
+                row.value = nil
+                return
+            }
+            if let fieldRow = row as? FieldRowConformance, let formatter = fieldRow.formatter {
+                if fieldRow.useFormatterDuringInput {
+                    let value: AutoreleasingUnsafeMutablePointer<AnyObject?> = AutoreleasingUnsafeMutablePointer<AnyObject?>.init(UnsafeMutablePointer<T>.alloc(1))
+                    let errorDesc: AutoreleasingUnsafeMutablePointer<NSString?> = nil
+                    if formatter.getObjectValue(value, forString: textValue, errorDescription: errorDesc) {
+                        row.value = value.memory as? T
+                        if var selStartPos = textField.selectedTextRange?.start {
+                            let oldVal = textField.text
+                            textField.text = row.displayValueFor?(row.value)
+                            if let f = formatter as? FormatterProtocol {
+                                selStartPos = f.getNewPosition(forPosition: selStartPos, inTextInput: textField, oldValue: oldVal, newValue: textField.text)
+                            }
+                            textField.selectedTextRange = textField.textRangeFromPosition(selStartPos, toPosition: selStartPos)
+                        }
+                        return
+                    }
+                }
+                else {
+                    let value: AutoreleasingUnsafeMutablePointer<AnyObject?> = AutoreleasingUnsafeMutablePointer<AnyObject?>.init(UnsafeMutablePointer<T>.alloc(1))
+                    let errorDesc: AutoreleasingUnsafeMutablePointer<NSString?> = nil
+                    if formatter.getObjectValue(value, forString: textValue, errorDescription: errorDesc) {
+                        row.value = value.memory as? T
+                    }
+                    return
+                }
+            }
+            guard !textValue.isEmpty else {
+                row.value = nil
+                return
+            }
+            guard let newValue = T.init(string: textValue) else {
+                return
+            }
+            row.value = newValue
+        }
+
+        //Mark: Helpers
+
+        private func displayValue(useFormatter useFormatter: Bool) -> String? {
+            guard let v = row.value else { return nil }
+            if let formatter = (row as? FormatterConformance)?.formatter , useFormatter {
+                return textField.isFirstResponder() ? formatter.editingStringForObjectValue(v as! AnyObject) : formatter.stringForObjectValue(v as! AnyObject)
+            }
+            return String(v)
+        }
+
+        //MARK: TextFieldDelegate
+
+        public func textFieldDidBeginEditing(textField: UITextField) {
+            formViewController()?.beginEditing(self)
+            formViewController()?.textInputDidBeginEditing(textField, cell: self)
+            if let fieldRowConformance = row as? FormatterConformance, let _ = fieldRowConformance.formatter , fieldRowConformance.useFormatterOnDidBeginEditing ?? fieldRowConformance.useFormatterDuringInput {
+                textField.text = displayValue(useFormatter: true)
+            } else {
+                textField.text = displayValue(useFormatter: false)
+            }
+        }
+
+        public func textFieldDidEndEditing(textField: UITextField) {
+            formViewController()?.endEditing(self)
+            formViewController()?.textInputDidEndEditing(textField, cell: self)
+            textFieldDidChange(textField)
+            textField.text = displayValue(useFormatter: (row as? FormatterConformance)?.formatter != nil)
+        }
+
+        public func textFieldShouldReturn(textField: UITextField) -> Bool {
+            return formViewController()?.textInputShouldReturn(textField, cell: self) ?? true
+        }
+
+        public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+            return formViewController()?.textInput(textField, shouldChangeCharactersInRange:range, replacementString:string, cell: self) ?? true
+        }
+
+        public func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+            return formViewController()?.textInputShouldBeginEditing(textField, cell: self) ?? true
+        }
+
+        public func textFieldShouldClear(textField: UITextField) -> Bool {
+            return formViewController()?.textInputShouldClear(textField, cell: self) ?? true
+        }
+
+        public func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+            return formViewController()?.textInputShouldEndEditing(textField, cell: self) ?? true
+        }
+    }
+
 }
